@@ -1,0 +1,131 @@
+\documentclass[b5paper]{article}
+\usepackage{hzondoku}
+
+\setmainfont{NotoSerifCJKjp-Regular.otf}[BoldFont=NotoSerifCJKjp-Bold.otf]
+\setsansfont{NotoSansCJKjp-Regular.otf}[BoldFont=NotoSansCJKjp-Bold.otf]
+
+\setlength\parindent{0pt}
+\renewcommand\baselinestretch{2}
+
+\title{hzondoku 패키지}
+\author{이 호재}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+hzondoku 패키지는 히라가나와 카타카나의 음을 로마자로 표시하는 \verb|\ondoku| 명령을 제공한다.
+이 패키지는 또한 \verb|\ruby| 명령을 재정의하여 토의 음을 표시한다.
+다른 글꼴이나 색으로 음이 표시되게 하려면 \verb|\textod| 명령을 재정의하라.
+\verb|\HideOndoku| 명령이 선언되면 \verb|\ondoku| 명령이 무효해져 음이 표시되지 않는다.
+
+\begin{verbatim}
+\ondoku{ひらがな}
+\ondoku*{ひらがな}
+\ruby{拗音}{ようおん}
+\ruby*{拗音}{ようおん}
+\end{verbatim}
+
+\ondoku{ひらがな}
+\ondoku*{ひらがな}
+\ruby{拗音}{ようおん}
+\ruby*{拗音}{ようおん}
+
+\twocolumn
+
+\section{拗音}
+
+\ruby{拗音}{ようおん}은 い 단 뒤에 오는 や·ゆ·よ이다.
+
+\ruby{茶}{ちゃ} 
+\ruby{写真}{しゃしん} 
+
+\section{促音}
+
+\ruby{促音}{そくおん} 뒤에 오는 글자에 따라 그 자음이 앞 자에 추가되어 받침소리처럼 들린다.
+
+\ruby{殺気}{さっき} 
+\ruby{先}{さっき} 
+
+\ondoku{いっそ} 차라리, 실로  
+\ondoku{ずっと} 훨씬, 쭉 
+\ruby{立派}{りっぱ} 훌륭함 
+
+\section{長音}
+
+\ruby{長音}{ちょうおん}
+
+앞 자와 뒤 자가 같은 모음으로 끝나면 장음으로 바뀐다.
+
+\ondoku{さあ} \ondoku{とお}
+
+え 단 글자 뒤에 오는 い는 장음으로 바뀐다.
+
+\ruby{先生}{せんせい}
+
+お 단 글자 뒤에 오는 う는 장음으로 바뀐다.
+
+ こうどう
+
+\section{発音}
+
+ん \ruby{発音}{はつおん}은 뒤 자에 따라 n, ng, ñ, m으로 바뀐다.
+ñ은, 솔직히 어떻게 발음하는지 모르겠지만, `응'과 `은'의 중간 소리를 나타낸다.
+
+\ondoku{でんわ} 
+\ondoku{にほん} 
+
+\ondoku{おんな} 
+\ondoku{きんじょ} 
+\ondoku{こんだん} 
+
+\ondoku{ぎんこう} 
+\ondoku{りんご} 
+
+\ondoku{じゅんび} 
+\ondoku{うんめい}
+
+\newpage
+
+\section{ひらがな} 
+
+\ondoku{あ い う え お}\\
+\ondoku{か き く け こ}\\
+\ondoku{が ぎ ぐ げ ご}\\
+\ondoku{さ し す せ そ}\\
+\ondoku{ざ じ ず ぜ ぞ}\\
+\ondoku{た ち つ て と}\\
+\ondoku{だ ぢ づ で ど}\\
+\ondoku{な に ぬ ね の}\\
+\ondoku{は ひ ふ へ ほ}\\
+\ondoku{ば び ぶ べ ぼ}\\
+\ondoku{ぱ ぴ ぷ ぺ ぽ}\\
+\ondoku{ま み む め も}\\
+\ondoku{ら り る れ ろ}\\
+\ondoku{わ を} \\
+\ondoku{ん } \\ 
+\ondoku{や ゆ よ } 
+
+\newpage
+
+\section{かたかな}
+
+\ondoku{ア イ ウ エ オ}\\
+\ondoku{カ キ ク ケ コ}\\
+\ondoku{ガ ギ グ ゲ ゴ}\\
+\ondoku{サ シ ス セ ソ}\\
+\ondoku{ザ ジ ズ ゼ ゾ}\\
+\ondoku{タ チ ツ テ ト}\\
+\ondoku{ダ ヂ ヅ デ ド}\\
+\ondoku{ナ ニ ヌ ネ ノ}\\
+\ondoku{ハ ヒ フ ヘ ホ}\\
+\ondoku{バ ビ ブ ベ ボ}\\
+\ondoku{パ ピ プ ペ ポ}\\
+\ondoku{マ ミ ム メ モ}\\
+\ondoku{ラ リ ル レ ロ}\\
+\ondoku{ワ ヲ} \\
+\ondoku{ン } \\ 
+\ondoku{ヤ ユ ヨ } 
+
+\end{document}

@@ -1,0 +1,146 @@
+% hzondoku.sty
+% Copyright 2021 Hoze Yi  <yihoze@gmail.com>
+% This work is made freely available and may be distributed or modified by anyone.
+
+\ProvidesPackage{hzondoku}[2021/08/25]
+
+\RequirePackage{kotex}
+\RequirePackage{xcolor}
+
+% \setmainfont{NotoSerifCJKjp-Regular.otf}[BoldFont=NotoSerifCJKjp-Bold.otf]
+% \setsansfont{NotoSansCJKjp-Regular.otf}[BoldFont=NotoSansCJKjp-Bold.otf]
+
+\ExplSyntaxOn
+\sys_if_engine_xetex:T
+{
+  \usepackage{ksruby}
+  \cs_set_eq:NN \ruby \ksruby
+}
+
+\prop_set_from_keyval:Nn \l_ondoku_prop
+{
+    あ=a,  い=i,  う=u,  え=e,  お=o, 
+    か=ka, き=ki, く=ku, け=ke, こ=ko, 
+    が=ga, ぎ=gi, ぐ=gu, げ=ge, ご=go, 
+    さ=sa, し=si, す=su, せ=se, そ=so, 
+    ざ=za, じ=ji, ず=zu, ぜ=ze, ぞ=zo, 
+    た=ta, ち=chi, つ=tsu, て=te, と=to, 
+    だ=da, ぢ=ji, づ=zu, で=de, ど=do, 
+    な=na, に=ni, ぬ=nu, ね=ne, の=no, 
+    は=ha, ひ=hi, ふ=fu, へ=he, ほ=ho, 
+    ば=ba, び=bi, ぶ=bu, べ=be, ぼ=bo, 
+    ぱ=pa, ぴ=pi, ぷ=pu, ぺ=pe, ぽ=po, 
+    ま=ma, み=mi, む=mu, め=me, も=mo, 
+    ら=ra, り=ri, る=ru, れ=re, ろ=ro,
+    わ=wa, を=wo, 
+    ん=NN, %\hatsuon
+    や=!ya, ゆ=!yu, よ=!yo,
+    ゃ=!ya, ゅ=!yu, ょ=!yo,
+    っ=\sokuon, % 促音
+    ア=a, イ=i, ウ=u, エ=e, オ=o, 
+    ィ=I,
+    カ=ka, キ=ki, ク=ku, ケ=ke, コ=ko,
+    ガ=ga, ギ=gi, グ=gu, ゲ=ge, ゴ=go,
+    サ=sa, シ=si, ス=su, セ=se, ソ=so,
+    ザ=za, ジ=ji, ズ=zu, ゼ=ze, ゾ=zo,
+    タ=ta, チ=chi, ツ=tsu, テ=te, ト=to,
+    ダ=da, ヂ=ji, ヅ=zu, デ=de, ド=do,
+    ナ=na, ニ=ni, ヌ=nu, ネ=ne, ノ=no,
+    ハ=ha, ヒ=hi, フ=fu, ヘ=he, ホ=ho,
+    バ=ba, ビ=bi, ブ=bu, ベ=be, ボ=bo,
+    パ=pa, ピ=pi, プ=pu, ペ=pe, ポ=po,
+    マ=ma, ミ=mi, ム=mu, メ=me, モ=mo,
+    ラ=ra, リ=ri, ル=ru, レ=re, ロ=ro,
+    ワ=wa, ヲ=wo,
+    ン=NN, %\hatsuon
+    ヤ=!ya, ユ=!yu, ヨ=!yo,
+    ャ=!ya, ュ=!yu, ョ=!yo,
+    ッ=\sokuon,
+    % （=(, ）=), ？=?, ！=!
+}
+
+\tl_new:N \l_ondoku_tl
+\seq_new:N \l_ondoku_seq
+
+\NewDocumentCommand \textod { m }{ \textcolor{gray}{#1} }
+\NewDocumentCommand \HideOndoku {}
+{ 
+    \RenewDocumentCommand\ondoku{ sm }{ ##2 }
+}
+
+\NewDocumentCommand \ondoku { s m }
+{
+    \seq_set_split:Nnn \l_ondoku_seq { ~ }{ #2 }
+    \seq_map_inline:Nn \l_ondoku_seq
+    {
+        \tl_clear:N \l_ondoku_tl
+        \group_begin:
+          \tl_set:Nn \l_tmpa_tl { ##1 }
+          \tl_map_inline:Nn \l_tmpa_tl
+          {
+              \prop_get:NnNTF \l_ondoku_prop ####1 \l_tmpb_tl
+              {
+                  \tl_put_right:NV \l_ondoku_tl \l_tmpb_tl
+              }{
+                  \tl_put_right:Nn \l_ondoku_tl { ####1 }
+              }
+          }
+          % 拗音
+          \regex_replace_all:nnN { [aiueo]I } { i } \l_ondoku_tl
+          \regex_replace_all:nnN { [i]*!y } { y } \l_ondoku_tl
+          % 長音
+          \regex_replace_all:nnN { ei } { ē } \l_ondoku_tl % eー
+          \regex_replace_all:nnN { ou } { ō } \l_ondoku_tl % oー
+          \regex_replace_all:nnN { aa } { ā } \l_ondoku_tl % aー
+          \regex_replace_all:nnN { ii } { ī } \l_ondoku_tl % iー
+          \regex_replace_all:nnN { uu } { ū } \l_ondoku_tl % uー
+          \regex_replace_all:nnN { ee } { ē } \l_ondoku_tl % eー
+          \regex_replace_all:nnN { oo } { ō } \l_ondoku_tl % oー
+          % 発音
+          \regex_replace_once:nnN { NN$ } { ñ } \l_ondoku_tl
+          \regex_replace_all:nnN { NN } { \c{hatsuon} } \l_ondoku_tl
+
+          \IfBooleanTF{#1}
+          {
+            \l_tmpa_tl \textod{\l_ondoku_tl}
+          }{
+            \rubyorg{\l_tmpa_tl }{\textod{\l_ondoku_tl}}
+          }
+        \group_end:
+        \space
+    }
+}
+
+\NewDocumentCommand \sokuon { m }
+{
+  \regex_match:nnTF { [kstp] }{ #1 }{ #1#1 }{ tsu #1 } % c removed from kstcp
+}
+
+\NewDocumentCommand \hatsuon { m }
+{
+  \regex_match:nnTF { [aiueohwy] }{ #1 }{ ñ #1 }
+  {
+    \regex_match:nnTF { [kg] }{ #1 }{ ng #1 }
+    {
+      %\regex_match:nnTF { [djrstz] }{ #1 }{ n #1 }
+      %{
+        \regex_match:nnTF { [bpm] }{ #1 }{ m #1 }
+        {
+          n #1
+        }
+      %}
+    }
+  }
+}
+
+\cs_set_eq:NN \rubyorg \ruby
+\RenewDocumentCommand\ruby{smm}
+{
+    \IfBooleanTF{#1}
+    {
+        \rubyorg{ #2 }{ #3 }
+    }{
+        \rubyorg{ #2 }{ \ondoku*{#3} }
+    }
+}
+\ExplSyntaxOff
